@@ -1,0 +1,4 @@
+InfoScan.iml
+.idea
+target/*
+infoscan-parent/src/main/webapp/WEB-INF/lib/*
