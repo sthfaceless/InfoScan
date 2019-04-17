@@ -1,6 +1,8 @@
 *.iml
 .idea
-target/*
-infoscan-master/src/main/webapp/WEB-INF/lib/*
+**/target/*
 InfoScan.pdf
 InfoScan_Architecture.png
+infoscan-view/infoscan-view-react/node_modules/*
+build/*
+infoscan-master/src/main/webapp/WEB-INF/lib/*

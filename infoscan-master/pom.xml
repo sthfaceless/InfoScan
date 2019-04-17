@@ -15,31 +15,26 @@
     <dependencies>
 
             <!--Child modules-->
-            <dependency>
-                <groupId>ru.spaceouter</groupId>
-                <artifactId>infoscan-view-rest</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         <dependency>
-                <groupId>ru.spaceouter</groupId>
-                <artifactId>infoscan-view-controller</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.spaceouter</groupId>
-                <artifactId>infoscan-services</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.spaceouter</groupId>
-                <artifactId>infoscan-model</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.spaceouter</groupId>
-                <artifactId>infoscan-logic-master</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-view-controller</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-logic-master</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -49,13 +44,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
