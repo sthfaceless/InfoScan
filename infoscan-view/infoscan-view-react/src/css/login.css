@@ -1,0 +1,51 @@
+.login-panel{
+    padding: 90px 0;
+}
+.login-panel form .title{
+    font-size: 30px;
+    margin: 10px 0;
+}
+.login-panel form{
+    padding: 30px 20px !important;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    box-shadow: lightgray 0 0 20px 1px;
+}
+.login-panel form .field{
+    margin: 10px 0;
+    width: 70%;
+}
+.login-panel form .input-label{
+    margin-left: -5px;
+}
+.login-panel form .field input{
+    background: #ffffff !important;
+    padding: 2px 0 2px 5px !important;
+    font-size: 15px !important;
+    border-radius: 5px !important;
+    height: 30px !important;
+    margin: 5px 0 0 -5px !important;
+    border: 1px solid lightgray !important;
+}
+.login-panel form .field input:focus{
+    box-shadow: deepskyblue 0 0 3px 1px !important;
+}
+.login-panel form .submit{
+    margin-top: 15px;
+    padding: 0 30px;
+}
+.login-panel form .submit-wrapper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.login-panel form .forgot-password{
+    margin-top: 7px;
+    font-weight: 100;
+}
+.login-panel form .forgot-password:hover{
+    color: #2196F3 !important;
+}

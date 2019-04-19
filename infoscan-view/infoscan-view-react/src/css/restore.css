@@ -1,0 +1,39 @@
+.restore-panel{
+    padding: 120px 0;
+}
+.restore-panel form{
+    padding: 30px 20px !important;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    align-items: center;
+    box-shadow: lightgray 0 0 20px 1px;
+}
+.restore-panel form .title{
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+.restore-panel form .subtitle{
+    display: flex;
+    font-size: 15px;
+    font-weight: 100;
+}
+.restore-panel form .field{
+    width: 80%;
+}
+.restore-panel form .field input{
+    background: #ffffff !important;
+    padding: 2px 0 2px 5px !important;
+    font-size: 15px !important;
+    border-radius: 5px !important;
+    height: 30px !important;
+    margin: 20px 0 0 0 !important;
+    border: 1px solid lightgray !important;
+}
+.restore-panel form .field input:focus{
+    box-shadow: deepskyblue 0 0 3px 1px !important;
+}
+.restore-panel form .submit{
+    margin-top: 30px;
+}

@@ -1,3 +1,7 @@
-nav .header-links .support{
+nav .header-links .license{
     margin-right: 10px;
+}
+nav .header-links .login{
+    margin-right: 0;
+    margin-left: 25px;
 }

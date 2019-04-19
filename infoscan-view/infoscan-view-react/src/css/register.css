@@ -1,0 +1,48 @@
+.register{
+    padding: 50px 0;
+    -moz-background-size: 100%;
+    -webkit-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+}
+.register form{
+    padding: 20px 10px !important;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    box-shadow: lightgray 0 0 20px 1px;
+}
+.register form h2{
+    font-size: 30px;
+}
+.register form .field{
+    width: 80%;
+    margin: 10px 0;
+}
+.register form .input-label{
+    margin-left: -5px;
+}
+.register form .field input{
+    background: #ffffff !important;
+    padding: 2px 0 2px 5px !important;
+    font-size: 15px !important;
+    border-radius: 5px !important;
+    height: 30px !important;
+    margin: 5px 0 0 -5px !important;
+    border: 1px solid lightgray !important;
+}
+.register form .field input:focus{
+    box-shadow: deepskyblue 0 0 3px 1px !important;
+}
+.register form .submit{
+    margin: 15px 0;
+    border: 0 !important;
+    color: white;
+}
+.register form .submit-wrapper{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
