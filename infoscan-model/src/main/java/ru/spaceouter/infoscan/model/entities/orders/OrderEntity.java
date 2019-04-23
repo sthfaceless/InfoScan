@@ -16,7 +16,14 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Table(name = "orders")
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(name = "getOrderInformationByOrderAndUser",
+        query = "select i.orderInformationId from OrderEntity o left join o.orderInformation i " +
+                "where o.orderId = :order and o.user = :user")
+})
 public class OrderEntity {
+
+    public static final String GET_ORDER_INFORMATION_BY_ORDER_AND_USER = "getOrderInformationByOrderAndUser";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +42,7 @@ public class OrderEntity {
 
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "user_order_fk"))
     @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @OneToOne(mappedBy = "order", optional = false, orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private OrderInformation orderInformation;

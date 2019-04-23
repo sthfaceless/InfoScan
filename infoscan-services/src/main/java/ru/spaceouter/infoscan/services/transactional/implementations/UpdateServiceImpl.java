@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.services.implementations;
+package ru.spaceouter.infoscan.services.transactional.implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,11 +9,9 @@ import ru.spaceouter.infoscan.model.ActivateCustomDAO;
 import ru.spaceouter.infoscan.model.AuthSpringDAO;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
 import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
-import ru.spaceouter.infoscan.services.EmailService;
-import ru.spaceouter.infoscan.services.UpdateService;
-import ru.spaceouter.infoscan.services.simple.TokenService;
-
-import javax.mail.MessagingException;
+import ru.spaceouter.infoscan.services.TokenService;
+import ru.spaceouter.infoscan.services.transactional.EmailService;
+import ru.spaceouter.infoscan.services.transactional.UpdateService;
 
 /**
  * @author danil
@@ -34,7 +32,7 @@ public class UpdateServiceImpl implements UpdateService {
     private final TokenService tokenService;
 
     @Override
-    public void updateEmail(long userId, String email) throws MessagingException {
+    public void updateEmail(long userId, String email) {
 
         String token = tokenService.nextToken();
         activateCustomDAO.setConfirmEmailToken(userId, token, email);

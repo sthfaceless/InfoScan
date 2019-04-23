@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.services.implementations;
+package ru.spaceouter.infoscan.services.transactional.implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,11 +15,10 @@ import ru.spaceouter.infoscan.model.entities.user.ActivationEntity;
 import ru.spaceouter.infoscan.model.entities.user.AuthEntity;
 import ru.spaceouter.infoscan.model.entities.user.RoleEntity;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
-import ru.spaceouter.infoscan.services.EmailService;
-import ru.spaceouter.infoscan.services.UserService;
-import ru.spaceouter.infoscan.services.simple.TokenService;
+import ru.spaceouter.infoscan.services.TokenService;
+import ru.spaceouter.infoscan.services.transactional.EmailService;
+import ru.spaceouter.infoscan.services.transactional.UserService;
 
-import javax.mail.MessagingException;
 import java.util.Date;
 
 /**
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private final TokenService tokenService;
 
     @Override
-    public void createUser(CreateUserDTO createUserDTO) throws MessagingException {
+    public void createUser(CreateUserDTO createUserDTO){
 
         final UserEntity userEntity = new UserEntity(
                 createUserDTO.getLogin(),
@@ -71,18 +70,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserByUsername(String username) {
-
-        return userSpringDAO.findByUsername(username);
-    }
-
-    @Override
     public boolean activateUser(String uuid) {
         return activateCustomDAO.activateAccount(uuid);
     }
 
     @Override
-    public void restore(StartRestoreDTO startRestoreDTO) throws MessagingException {
+    public void restore(StartRestoreDTO startRestoreDTO){
 
         String confirmRestore = tokenService.nextToken();
         activateCustomDAO.setConfirmPasswordToken(confirmRestore, startRestoreDTO.getEmail());

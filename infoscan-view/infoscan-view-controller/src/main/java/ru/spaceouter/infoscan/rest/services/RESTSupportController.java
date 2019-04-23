@@ -6,8 +6,8 @@ import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.dto.view.CreateQuestionDTO;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
-import ru.spaceouter.infoscan.services.AuthService;
-import ru.spaceouter.infoscan.services.SupportService;
+import ru.spaceouter.infoscan.services.transactional.AuthService;
+import ru.spaceouter.infoscan.services.transactional.SupportService;
 
 /**
  * @author danil

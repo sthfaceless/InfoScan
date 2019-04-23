@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.services;
+package ru.spaceouter.infoscan.services.transactional;
 
 import ru.spaceouter.infoscan.dto.view.CreateQuestionDTO;
 

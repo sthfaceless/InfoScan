@@ -4,15 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import ru.spaceouter.infoscan.dto.auth.*;
+import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.dto.view.CreateUserDTO;
 import ru.spaceouter.infoscan.dto.view.RestoreDTO;
 import ru.spaceouter.infoscan.dto.view.StartRestoreDTO;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
-import ru.spaceouter.infoscan.services.AuthService;
-import ru.spaceouter.infoscan.services.UserService;
-
-import javax.mail.MessagingException;
+import ru.spaceouter.infoscan.services.transactional.AuthService;
+import ru.spaceouter.infoscan.services.transactional.UserService;
 
 /**
  * @author danil
@@ -31,7 +29,7 @@ public class RESTUserController extends RestControllerWithAuthorization<UserAuth
     }
 
     @PostMapping(path = "/reg")
-    public ResponseEntity<?> reg(@RequestBody CreateUserDTO createUserDTO) throws MessagingException {
+    public ResponseEntity<?> reg(@RequestBody CreateUserDTO createUserDTO){
 
         userService.createUser(createUserDTO);
         return created();
@@ -49,12 +47,6 @@ public class RESTUserController extends RestControllerWithAuthorization<UserAuth
             return ok();
     }
 
-    @GetMapping
-    public ResponseEntity<?> getUser(@RequestParam(name = "username") String username){
-
-        return found(userService.getUserByUsername(username));
-    }
-
     @PutMapping(path = "/reg/{uuid}")
     public ResponseEntity<?> regConfirm(@PathVariable("uuid") String uuid){
 
@@ -63,7 +55,7 @@ public class RESTUserController extends RestControllerWithAuthorization<UserAuth
     }
 
     @PostMapping(path = "/restore")
-    public ResponseEntity<?> restore(@RequestBody StartRestoreDTO startRestoreDTO) throws MessagingException {
+    public ResponseEntity<?> restore(@RequestBody StartRestoreDTO startRestoreDTO) {
 
         userService.restore(startRestoreDTO);
         return created();

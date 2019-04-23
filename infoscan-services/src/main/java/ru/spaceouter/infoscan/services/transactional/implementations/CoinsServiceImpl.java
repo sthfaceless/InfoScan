@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.services.implementations;
+package ru.spaceouter.infoscan.services.transactional.implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
 import ru.spaceouter.infoscan.model.CoinsCustomDAO;
 import ru.spaceouter.infoscan.model.CoinsSpringDAO;
 import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
-import ru.spaceouter.infoscan.services.CoinsService;
+import ru.spaceouter.infoscan.services.transactional.CoinsService;
 
 import java.util.List;
 
@@ -42,6 +42,6 @@ public class CoinsServiceImpl implements CoinsService {
 
     @Override
     public void requestPayment(long userId) {
-
+        //TODO add payment
     }
 }

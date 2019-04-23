@@ -57,10 +57,13 @@ public class OrderInformation {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     private OrderEntity order;
 
-    public OrderInformation(String firstName, String lastName, String patronymic, String pseudoName, String email, String alternate) {
+    public OrderInformation(String firstName, String lastName, String patronymic, String ip, String phone, String picture, String pseudoName, String email, String alternate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
+        this.ip = ip;
+        this.phone = phone;
+        this.picture = picture;
         this.pseudoName = pseudoName;
         this.email = email;
         this.alternate = alternate;

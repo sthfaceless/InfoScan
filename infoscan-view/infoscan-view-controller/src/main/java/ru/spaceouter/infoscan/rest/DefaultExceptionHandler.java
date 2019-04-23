@@ -1,6 +1,5 @@
 package ru.spaceouter.infoscan.rest;
 
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

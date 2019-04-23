@@ -7,10 +7,8 @@ import ru.spaceouter.infoscan.dto.view.UpdateEmailDTO;
 import ru.spaceouter.infoscan.dto.view.UpdatePasswordDTO;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
-import ru.spaceouter.infoscan.services.AuthService;
-import ru.spaceouter.infoscan.services.UpdateService;
-
-import javax.mail.MessagingException;
+import ru.spaceouter.infoscan.services.transactional.AuthService;
+import ru.spaceouter.infoscan.services.transactional.UpdateService;
 
 /**
  * @author danil
@@ -32,7 +30,7 @@ public class RESTUpdateController extends RestControllerWithAuthorization<UserAu
     @RequestMapping(path = "/email")
     public ResponseEntity<?> updateEmail(@RequestBody UpdateEmailDTO updateEmailDTO,
                                          @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException, MessagingException {
+            throws UnauthorizedException {
 
         updateService.updateEmail(
                 getAuthDataByToken(token).getUserId(),

@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.services.implementations;
+package ru.spaceouter.infoscan.services.transactional.implementations;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import ru.spaceouter.infoscan.dto.view.CreateQuestionDTO;
 import ru.spaceouter.infoscan.model.SupportSpringDAO;
 import ru.spaceouter.infoscan.model.entities.support.SupportQuestion;
 import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
-import ru.spaceouter.infoscan.services.SupportService;
+import ru.spaceouter.infoscan.services.transactional.SupportService;
 
 /**
  * @author danil

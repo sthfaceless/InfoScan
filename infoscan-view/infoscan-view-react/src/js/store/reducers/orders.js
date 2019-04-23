@@ -1,5 +1,3 @@
-import {GET_ORDERS} from "../actions/ordersActions";
-
 const ordersFunctions = {
     GET_ORDERS: (store, state) => {
 

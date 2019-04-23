@@ -1,7 +1,6 @@
 package ru.spaceouter.infoscan.dto.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 /**

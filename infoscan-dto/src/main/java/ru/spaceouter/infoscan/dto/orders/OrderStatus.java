@@ -7,7 +7,6 @@ import lombok.ToString;
  * @author danil
  * @date 20.04.19
  */
-@ToString
 @AllArgsConstructor
 public enum OrderStatus {
 
@@ -16,5 +15,10 @@ public enum OrderStatus {
     FINISHED("FINISHED");
 
     private final String name;
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 
 }

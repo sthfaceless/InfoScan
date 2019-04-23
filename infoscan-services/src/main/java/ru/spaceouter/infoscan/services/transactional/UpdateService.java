@@ -1,6 +1,4 @@
-package ru.spaceouter.infoscan.services;
-
-import javax.mail.MessagingException;
+package ru.spaceouter.infoscan.services.transactional;
 
 /**
  * @author danil
@@ -8,7 +6,7 @@ import javax.mail.MessagingException;
  */
 public interface UpdateService {
 
-    void updateEmail(long userId, String email) throws MessagingException;
+    void updateEmail(long userId, String email);
 
     boolean confirmEmailUpdating(String uuid);
 

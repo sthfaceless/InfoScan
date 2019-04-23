@@ -1,9 +1,7 @@
 package ru.spaceouter.infoscan.rest;
 
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
-import ru.spaceouter.infoscan.services.AuthService;
+import ru.spaceouter.infoscan.services.transactional.AuthService;
 
 /**
  * @author danil

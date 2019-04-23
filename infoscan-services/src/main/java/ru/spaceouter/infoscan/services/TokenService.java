@@ -1,9 +1,7 @@
-package ru.spaceouter.infoscan.services.simple;
+package ru.spaceouter.infoscan.services;
 
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import sun.misc.BASE64Encoder;
 
 import java.security.SecureRandom;
 import java.util.Base64;

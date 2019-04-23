@@ -1,11 +1,8 @@
-package ru.spaceouter.infoscan.services;
+package ru.spaceouter.infoscan.services.transactional;
 
 import ru.spaceouter.infoscan.dto.view.CreateUserDTO;
 import ru.spaceouter.infoscan.dto.view.RestoreDTO;
 import ru.spaceouter.infoscan.dto.view.StartRestoreDTO;
-import ru.spaceouter.infoscan.model.entities.user.UserEntity;
-
-import javax.mail.MessagingException;
 
 /**
  * @author danil
@@ -13,13 +10,11 @@ import javax.mail.MessagingException;
  */
 public interface UserService {
 
-    void createUser(CreateUserDTO createUserDTO) throws MessagingException;
-
-    UserEntity getUserByUsername(String username);
+    void createUser(CreateUserDTO createUserDTO);
 
     boolean activateUser(String uuid);
 
-    void restore(StartRestoreDTO startRestoreDTO) throws MessagingException;
+    void restore(StartRestoreDTO startRestoreDTO);
 
     boolean confirmRestore(RestoreDTO restoreDTO);
 

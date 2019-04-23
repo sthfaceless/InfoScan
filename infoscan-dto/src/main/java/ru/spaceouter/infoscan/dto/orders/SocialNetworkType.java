@@ -1,17 +1,18 @@
-package ru.spaceouter.infoscan.dto.auth;
+package ru.spaceouter.infoscan.dto.orders;
 
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author danil
- * @date 21.04.19
+ * @date 23.04.19
  */
 @AllArgsConstructor
-public enum Role {
+public enum SocialNetworkType {
 
-    USER("ROLE_USER"),
-    ADMIN("ROLE_ADMIN");
+    VK("VK"),
+    FB("FB"),
+    INSTAGRAM("INSTAGRAM"),
+    TWITTER("TWITTER");
 
     private final String name;
 
@@ -19,5 +20,4 @@ public enum Role {
     public String toString() {
         return this.name;
     }
-
 }

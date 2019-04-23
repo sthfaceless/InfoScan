@@ -4,10 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
-import ru.spaceouter.infoscan.rest.AbstractRestController;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
-import ru.spaceouter.infoscan.services.AuthService;
-import ru.spaceouter.infoscan.services.CoinsService;
+import ru.spaceouter.infoscan.services.transactional.AuthService;
+import ru.spaceouter.infoscan.services.transactional.CoinsService;
 
 /**
  * @author danil
