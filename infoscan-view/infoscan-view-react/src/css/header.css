@@ -1,7 +1,7 @@
-nav .header-links .license{
-    margin-right: 10px;
-}
 nav .header-links .login{
     margin-right: 0;
     margin-left: 25px;
+}
+nav .links-delimiter{
+    margin: 0 10px;
 }

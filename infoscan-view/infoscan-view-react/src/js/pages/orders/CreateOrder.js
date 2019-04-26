@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
+import '../../../css/makeOrder.css';
 
-class Coins extends Component{
+class MakeOrder extends Component{
     constructor(props) {
         super(props);
-
     }
 
     render() {
         return (
             <div>
-                Coins
+                MakeOrder
             </div>
         );
     }
+
 }
 
-export default Coins;
+export default MakeOrder;

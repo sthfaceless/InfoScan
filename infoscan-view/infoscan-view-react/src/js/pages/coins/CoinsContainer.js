@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class MakeOrder extends Component{
+class CoinsRouter extends Component{
     constructor(props) {
         super(props);
 
@@ -9,11 +9,10 @@ class MakeOrder extends Component{
     render() {
         return (
             <div>
-                MakeOrder
+                Coins
             </div>
         );
     }
-
 }
 
-export default MakeOrder;
+export default CoinsRouter;
