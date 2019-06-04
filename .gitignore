@@ -1,9 +1,8 @@
 *.iml
 .idea
-**/target/*
-InfoScan.pdf
-InfoScan_Architecture.png
-infoscan-view/infoscan-view-react/node_modules/*
+docs/*
 build/*
+**/target/*
+infoscan-view/infoscan-view-react/node_modules/*
 infoscan-master/src/main/webapp/WEB-INF/lib/*
 infoscan-master/src/main/resources/security.properties
