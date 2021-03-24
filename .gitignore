@@ -3,6 +3,6 @@
 docs/*
 build/*
 **/target/*
-infoscan-view/infoscan-view-react/node_modules/*
-infoscan-master/src/main/webapp/WEB-INF/lib/*
-infoscan-master/src/main/resources/security.properties
+qscan-view/infoscan-view-react/node_modules/*
+qscan-master/src/main/webapp/WEB-INF/lib/*
+qscan-master/src/main/resources/security.properties
