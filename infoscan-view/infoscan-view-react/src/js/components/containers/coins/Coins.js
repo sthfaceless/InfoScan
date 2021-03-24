@@ -1,12 +1,24 @@
 import React, {Component} from 'react';
 import 'css/coins/coins.css';
-import {Link} from "react-router-dom";
 import SearchBar from "js/components/core/SearchBar";
 import PayCard from "js/components/simple/coins/PayCard";
 import More from "js/components/core/More";
 import PaymentItem from "js/components/simple/coins/PaymentItem";
+import {connect} from "react-redux";
+import {loadBalance, loadPayments} from "../../../store/actions/coinsActions";
 
 class Coins extends Component{
+
+    componentDidMount() {
+       const {dispatch} = this.props;
+       dispatch(loadBalance());
+       dispatch(loadPayments(this.props.payments));
+    }
+
+    loadMore = () => {
+        this.props.dispatch(loadPayments(this.props.payments));
+    };
+
     render() {
         return (
             <div className="coins">
@@ -21,11 +33,11 @@ class Coins extends Component{
                                 {this.props.payments.map(payment => (
                                     <PaymentItem key={payment.id} payment={payment}/>
                                 ))}
-                                <More/>
+                                {this.props.payments.more ? <More action={this.loadMore}/> : ''}
                             </div>
                         </div>
                         <div className="col s12 l4 actions">
-                            <PayCard balance={this.props.balance}/>
+                            <PayCard balance={this.props.balance ? this.props.balance : 'Неизвестно'}/>
                         </div>
                     </div>
                 </div>
@@ -34,4 +46,10 @@ class Coins extends Component{
     }
 }
 
-export default Coins;
+const mapStateToProps = state => ({
+    searchFilters: state.coins.searchFilters,
+    payments: state.coins.payments,
+    balance: state.coins.balance
+});
+
+export default connect(mapStateToProps)(Coins);

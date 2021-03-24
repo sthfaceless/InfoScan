@@ -4,6 +4,8 @@ import OrdersTop from "js/components/simple/orders/OrdersTop";
 import SearchBar from "js/components/core/SearchBar";
 import More from "js/components/core/More";
 import OrderItem from "js/components/simple/orders/OrderItem";
+import {connect} from "react-redux";
+import {loadOrders, loadOrdersStatistics} from "../../../store/actions/ordersActions";
 
 class Orders extends Component{
     constructor(props) {
@@ -20,6 +22,16 @@ class Orders extends Component{
         }
     }
 
+    componentDidMount() {
+        const {dispatch} = this.props;
+        dispatch(loadOrders(this.props.orders));
+        dispatch(loadOrdersStatistics());
+    }
+
+    loadMore = () => {
+        this.props.dispatch(loadOrders(this.props.orders));
+    };
+
     render() {
         return (
             <div className="orders">
@@ -30,13 +42,13 @@ class Orders extends Component{
                     </div>
                     <div className="row">
                         <div className="col s12 content">
-                            {this.props.orders.items.map(item => (
+                            {Object.values(this.props.orders.items).map(item => (
                                 <OrderItem key={item.id} order={item}/>
                             ))}
                         </div>
                     </div>
                     <div className="row">
-                        <More/>
+                        {this.props.orders.more ? <More action={this.loadMore}/> : ''}
                     </div>
                 </div>
             </div>
@@ -45,4 +57,8 @@ class Orders extends Component{
 
 }
 
-export default Orders;
+const mapStateToProps = state => ({
+   orders: state.orders
+});
+
+export default connect(mapStateToProps)(Orders);

@@ -4,10 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.view.orders.CreateOrderDTO;
-import ru.spaceouter.infoscan.dto.view.orders.FullOrderDTO;
-import ru.spaceouter.infoscan.dto.view.orders.SocialNetworkDTO;
-import ru.spaceouter.infoscan.dto.view.orders.UpdateOrderDTO;
+import ru.spaceouter.infoscan.dto.orders.CreateOrderDTO;
+import ru.spaceouter.infoscan.dto.orders.SocialNetworkDTO;
+import ru.spaceouter.infoscan.dto.orders.UpdateOrderDTO;
 import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.NotExistException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
@@ -34,7 +33,10 @@ public class RESTOrdersController extends RestControllerWithAuthorization<UserAu
 
     @GetMapping
     public ResponseEntity<?> getOrders(@RequestParam(name = "id", required = false) String id,
-            @RequestParam(name = "start", required = false) String start,
+            @RequestParam(name = "query", required = false) String query,
+            @RequestParam(name = "start", defaultValue = "0", required = false) String start,
+            @RequestParam(name = "order", defaultValue = "date", required = false) String order,
+            @RequestParam(name = "type", defaultValue = "1", required = false) String type,
             @CookieValue(name = "auth_token", required = false) String token)
             throws UnauthorizedException, InvalidAuthenticationException, WrongArgumentsException {
 
@@ -43,7 +45,7 @@ public class RESTOrdersController extends RestControllerWithAuthorization<UserAu
                     id, getAuthDataByToken(token).getUserId()));
 
         return found(ordersService.getOrders(
-                getAuthDataByToken(token).getUserId(), start));
+                getAuthDataByToken(token).getUserId(), query, start, order, type));
     }
 
     @PostMapping

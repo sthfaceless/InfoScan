@@ -13,5 +13,6 @@ public class UserAuthDTO {
 
     private final long userId;
     private final String username;
+    private final String token;
 
 }

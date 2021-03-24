@@ -5,10 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.spaceouter.infoscan.dto.auth.RestoreDTO;
 import ru.spaceouter.infoscan.dto.auth.Role;
-import ru.spaceouter.infoscan.dto.view.user.CreateUserDTO;
-import ru.spaceouter.infoscan.dto.view.auth.RestoreDTO;
-import ru.spaceouter.infoscan.model.ActivateCustomDAO;
+import ru.spaceouter.infoscan.dto.user.CreateUserDTO;
+import ru.spaceouter.infoscan.model.ActivateSpringDAO;
 import ru.spaceouter.infoscan.model.UserSpringDAO;
 import ru.spaceouter.infoscan.model.entities.coins.CoinsEntity;
 import ru.spaceouter.infoscan.model.entities.user.ActivationEntity;
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private EmailService emailService;
 
     private final UserSpringDAO userSpringDAO;
-    private final ActivateCustomDAO activateCustomDAO;
+    private final ActivateSpringDAO activateSpringDAO;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenService tokenService;
@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService {
 
         final UserEntity userEntity = new UserEntity(
                 createUserDTO.getUsername(),
-                createUserDTO.getEmail(),
                 new Date());
 
         final RoleEntity roleEntity = new RoleEntity(Role.USER);
@@ -58,6 +57,7 @@ public class UserServiceImpl implements UserService {
         final AuthEntity authEntity = new AuthEntity(
                 createUserDTO.getUsername(),
                 bCryptPasswordEncoder.encode(createUserDTO.getPassword()),
+                createUserDTO.getEmail(),
                 tokenService.nextToken(),
                 expiredDate,
                 false,
@@ -81,24 +81,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean activateUser(String uuid) {
-        return activateCustomDAO.activateAccount(uuid);
+    public void activateUser(String uuid) {
+        activateSpringDAO.activateAccount(uuid);
     }
 
     @Override
     public void restore(String email){
 
         String confirmRestore = tokenService.nextToken();
-        activateCustomDAO.setConfirmPasswordToken(confirmRestore, email);
+        activateSpringDAO.setConfirmPasswordToken(confirmRestore, email);
 
         emailService.sendConfirmPasswordRestoreMessage(email, confirmRestore);
 
     }
 
     @Override
-    public boolean confirmRestore(RestoreDTO restoreDTO){
+    public void confirmRestore(RestoreDTO restoreDTO){
 
-       return activateCustomDAO.confirmPassword(restoreDTO.getUuid(),
+        activateSpringDAO.confirmPassword(restoreDTO.getUuid(),
                bCryptPasswordEncoder.encode(restoreDTO.getPassword()));
     }
 

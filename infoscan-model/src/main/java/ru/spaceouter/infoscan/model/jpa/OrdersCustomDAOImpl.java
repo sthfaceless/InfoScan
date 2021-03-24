@@ -1,13 +1,15 @@
 package ru.spaceouter.infoscan.model.jpa;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import ru.spaceouter.infoscan.dto.model.ModelSocialNetworkDTO;
-import ru.spaceouter.infoscan.dto.model.OrderModelDTO;
-import ru.spaceouter.infoscan.dto.view.orders.*;
+import ru.spaceouter.infoscan.dto.orders.FullOrderDTO;
+import ru.spaceouter.infoscan.dto.orders.SocialNetworkDTO;
+import ru.spaceouter.infoscan.dto.orders.ViewOrderDTO;
 import ru.spaceouter.infoscan.exceptions.NotExistException;
 import ru.spaceouter.infoscan.model.OrdersCustomDAO;
+import ru.spaceouter.infoscan.model.OrdersSpringDAO;
 import ru.spaceouter.infoscan.model.entities.orders.OrderEntity;
 import ru.spaceouter.infoscan.model.entities.orders.OrderInformation;
 import ru.spaceouter.infoscan.model.entities.orders.SocialNetwork;
@@ -16,7 +18,6 @@ import ru.spaceouter.infoscan.model.entities.user.UserEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.*;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,8 +31,14 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
     @PersistenceContext
     private EntityManager em;
 
+    private OrdersSpringDAO ordersSpringDAO;
+
+    public OrdersCustomDAOImpl(OrdersSpringDAO ordersSpringDAO) {
+        this.ordersSpringDAO = ordersSpringDAO;
+    }
+
     @Override
-    public List<ViewOrderDTO> getOrdersByUser(long userId, int start, int max) {
+    public List<ViewOrderDTO> getOrdersByUser(long userId, String key, int start, int size, String ordering, String type) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<ViewOrderDTO> query = cb.createQuery(ViewOrderDTO.class);
@@ -43,9 +50,19 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
                 info.get("firstName"), info.get("lastName"), info.get("patronymic"), info.get("pseudoName"),
                 order.get("createDate"), order.get("status")));
 
-        query.orderBy(cb.desc(order.get("createDate")));
+        if(!StringUtils.isEmpty(query)) {
+            key = '%' + key + '%';
+            query.where(cb.or(cb.like(info.get("firstName"), key), cb.like(info.get("lastName"), key),
+                    cb.like(info.get("pseudoName"), key), cb.like(info.get("email"), key)));
+        }
 
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
+        Path orderField;
+        if("status".equals(ordering)) orderField = order.get("status");
+        else orderField = order.get("createDate");
+
+        query.orderBy("0".equals(type) ? cb.asc(orderField) : cb.desc(orderField));
+
+        return em.createQuery(query).setFirstResult(start).setMaxResults(size+1).getResultList();
     }
 
     @Override
@@ -60,7 +77,7 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
         query.select(cb.construct(FullOrderDTO.class, order.get("orderId"),
                 info.get("firstName"), info.get("lastName"), info.get("patronymic"),
                 info.get("ip"), info.get("phone"), info.get("picture"),
-                info.get("pseudoName"), info.get("email"), info.get("alternate")));
+                info.get("pseudoName"), info.get("email"), info.get("alternate"), order.get("createDate"), order.get("status")));
 
         query.where(cb.and(cb.equal(order.get("orderId"), orderId),
                 cb.equal(order.get("user"), em.getReference(UserEntity.class, userId))));
@@ -74,43 +91,19 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
     @Override
     public List<SocialNetworkDTO> getSocialNetwork(long orderId, long userId) {
 
-        return em.createNamedQuery(SocialNetwork.GET_SOCIAL_NETWORKS_BY_ORDER, SocialNetworkDTO.class)
-                .setParameter("order", em.getReference(OrderEntity.class, orderId))
-                .setParameter("user", em.getReference(UserEntity.class, userId))
-                .getResultList();
-    }
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SocialNetworkDTO> query = cb.createQuery(SocialNetworkDTO.class);
+        Root<SocialNetwork> network = query.from(SocialNetwork.class);
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    protected OrderEntity saveOrderWithID(long userId, CreateOrderDTO createOrderDTO){
+        Join<SocialNetwork, OrderInformation> info = network.join("orderInformation", JoinType.LEFT);
+        Join<OrderInformation, OrderEntity> order = info.join("order", JoinType.LEFT);
 
-        OrderEntity orderEntity = new OrderEntity(new Date(),
-                OrderStatus.ACCEPTED,
-                "Anonymous");
-        orderEntity.setUser(em.getReference(UserEntity.class, userId));
+        query.select(cb.construct(SocialNetworkDTO.class, network.get("socialNetworkId"),
+                network.get("type"), network.get("link")));
+        query.where(cb.and(cb.equal(info.get("order"), em.getReference(OrderEntity.class, orderId)),
+                cb.equal(order.get("user"), em.getReference(UserEntity.class, userId))));
 
-        OrderInformation orderInformation = new OrderInformation(
-                createOrderDTO.getFirstName(),
-                createOrderDTO.getLastName(),
-                createOrderDTO.getPatronymic(),
-                createOrderDTO.getIp(),
-                createOrderDTO.getPhone(),
-                createOrderDTO.getPicture(),
-                createOrderDTO.getPseudoName(),
-                createOrderDTO.getEmail(),
-                createOrderDTO.getAlternate()
-        );
-        orderInformation.setOrder(orderEntity);
-        orderEntity.setOrderInformation(orderInformation);
-
-        em.persist(orderEntity);
-
-        return orderEntity;
-    }
-
-    @Override
-    public long saveOrder(long userId, CreateOrderDTO createOrderDTO) {
-
-        return saveOrderWithID(userId, createOrderDTO).getOrderId();
+        return em.createQuery(query).getResultList();
     }
 
     @Override
@@ -120,7 +113,8 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
         CriteriaUpdate<OrderInformation> update = cb.createCriteriaUpdate(OrderInformation.class);
         Root<OrderInformation> root = update.from(OrderInformation.class);
 
-        long orderInformationId = getOrderInformationIdByOrderAndUser(orderId, userId);
+        long orderInformationId = this.ordersSpringDAO.getOrderInformationIdByOrderAndUser(orderId,
+                em.getReference(UserEntity.class, userId));
         if(orderInformationId == 0)
             return false;
 
@@ -130,18 +124,10 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
         return em.createQuery(update).executeUpdate() != 0;
     }
 
-    private long getOrderInformationIdByOrderAndUser(long orderId, long userId){
-
-        return em.createNamedQuery(OrderEntity.GET_ORDER_INFORMATION_BY_ORDER_AND_USER, Long.class)
-                .setParameter("order", orderId)
-                .setParameter("user", em.getReference(UserEntity.class, userId))
-                .getResultList().stream().findFirst().orElse((long) 0);
-    }
-
     @Override
     public long updateOrderSocialNetworks(SocialNetworkDTO socialNetworkDTO, long userId) throws NotExistException {
 
-        long orderInformationId = getOrderInformationIdByOrder(socialNetworkDTO.getOrderId());
+        long orderInformationId = this.ordersSpringDAO.getOrderInformationIdByOrder(socialNetworkDTO.getOrderId());
         if(orderInformationId == 0)
             throw new NotExistException();
 
@@ -166,20 +152,21 @@ public class OrdersCustomDAOImpl implements OrdersCustomDAO{
         return socialNetworkDTO.getOrderId();
     }
 
-    @Override
-    public long getOrderInformationIdByOrder(long orderId) {
+    private List<ModelSocialNetworkDTO> getModelSocialNetwork(long orderId, long userId){
 
-        return em.createNamedQuery(OrderEntity.GET_ORDER_INFORMATION_BY_ORDER_ID, Long.class)
-                .setParameter("order", em.getReference(OrderEntity.class, orderId))
-                .getResultList().stream().findFirst().orElse((long) 0);
-    }
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ModelSocialNetworkDTO> query = cb.createQuery(ModelSocialNetworkDTO.class);
+        Root<SocialNetwork> network = query.from(SocialNetwork.class);
 
-    public List<ModelSocialNetworkDTO> getModelSocialNetwork(long orderId, long userId){
+        Join<SocialNetwork, OrderInformation> info = network.join("orderInformation", JoinType.LEFT);
+        Join<OrderInformation, OrderEntity> order = info.join("order", JoinType.LEFT);
 
-        return em.createNamedQuery(SocialNetwork.GET_MODEL_SOCIAL_NETWORK, ModelSocialNetworkDTO.class)
-                .setParameter("order", orderId)
-                .setParameter("user", em.getReference(UserEntity.class, userId))
-                .getResultList();
+        query.select(cb.construct(ModelSocialNetworkDTO.class, network.get("socialNetworkId"), order.get("orderId"),
+                network.get("type")));
+        query.where(cb.and(cb.equal(info.get("order"), em.getReference(OrderEntity.class, orderId)),
+                cb.equal(order.get("user"), em.getReference(UserEntity.class, userId))));
+
+        return em.createQuery(query).getResultList();
     }
 
 }

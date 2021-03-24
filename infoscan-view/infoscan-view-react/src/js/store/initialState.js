@@ -1,17 +1,25 @@
+import {getCookie} from 'js/services/cookie-service';
+import {authWithToken} from "./actions/authActions";
+
 export function getInitialState() {
     return {
         auth: auth(),
         support: support(),
         profile: profile(),
         coins: coins(),
-        orders: orders()
+        orders: orders(),
+        modal: modal()
     }
 }
 
-const auth = () => ({
-   isAuth: false,
-   username: 'admin'
-});
+const auth = () => {
+    const action = authWithToken(getCookie('auth_token'));
+    return {
+        isAuth: action.code === 0,
+        username: action.state.username,
+        token: action.state.token
+    };
+};
 
 const support = () => ({
    groups: [{
@@ -59,19 +67,7 @@ const support = () => ({
 
 const profile = () => ({
    info: {
-       infoCards: [{
-           name: 'Личная информация',
-           elements: [{
-               name: 'Имя пользователя',
-               value: 'admin'
-           },{
-               name: 'Емайл',
-               value: 'zerodotax2@mail.ru'
-           },{
-               name: 'Дата регистрации',
-               value: '15-11-2001'
-           }]
-       }]
+       infoCards: []
    }
 });
 
@@ -80,14 +76,11 @@ const coins = () => ({
         name: 'Дата',
         elements: ['Новые', 'Старые']
     }],
-    balance: 13,
-    payments: [{
-        id: 234,
-        system: 'qiwi',
-        systemName: 'Qiwi Wallet',
-        date: '13-12-2008',
-        amount: 5
-    }]
+    balance: undefined,
+    payments: {
+        items: [],
+        more: false
+    }
 });
 
 const orders = () => ({
@@ -99,37 +92,15 @@ const orders = () => ({
         elements: ['Принят', 'В обработке', 'Отклонён', 'Завершён']
     }],
     ordersStat: {
-        'accepted': 5,
-        'processing': 2,
-        'cancelled': 3,
-        'finished': 13
+        'accepted': undefined,
+        'processing': undefined,
+        'cancelled': undefined,
+        'finished': undefined
     },
-    items: [{
-        id: 1,
-        name: 'Петя Иванов',
-        createDate: '15-11-2001 18:01',
-        status: 'Принят',
-        networks: [{
-            logo: 'vk',
-            name: 'Ельцов Данил',
-            path: 'vk.com'
-        }],
-        info: [{
-            name: 'Емайл',
-            items: ['gmailssx2@mail.ru', 'sridderter@gmail.com']
-        },{
-            name: 'Телефоны',
-            items: ['+8800553535', '+79129992223']
-        }]
-    },{
-        id: 2,
-        name: 'Петя Миронов',
-        createDate: '15-11-2003 18:01',
-        status: 'В обработке',
-        networks: [{
-            logo: 'github',
-            name: 'spaceouter',
-            path: 'github..com'
-        }]
-    }]
+    items: {},
+    more: false
+});
+
+const modal = () => ({
+    isOpen: false
 });

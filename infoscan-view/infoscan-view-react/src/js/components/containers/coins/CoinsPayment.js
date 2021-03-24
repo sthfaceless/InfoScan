@@ -2,16 +2,29 @@ import React, {Component} from 'react';
 import 'css/coins/coinsPayment.css';
 import QiwiContent from "js/components/simple/coins/QiwiContent";
 import PaymentSystems from "js/components/simple/coins/PaymentSystems";
+import {connect} from "react-redux";
+import {requestPayment} from "../../../store/actions/coinsActions";
 
 class CoinsPayment extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            content: <QiwiContent/>
+            content: <QiwiContent updateBilling={this.updateBilling}/>,
         }
     }
     setActive = (component) => {
         this.setState({content: component});
+    };
+    updateBilling = (billing) => {
+        this.setState({billing: billing});
+    };
+    requestPayment = () => {
+        if(!this.state.billing){
+
+        }else{
+            const {dispatch} = this.props;
+            dispatch(requestPayment(this.state.billing))
+        }
     };
     render() {
         return (
@@ -26,7 +39,7 @@ class CoinsPayment extends Component{
                             <div className="head grey-text">Оплата</div>
                             {this.state.content}
                             <div className="pay-wrapper">
-                                <div className="pay-btn grey darken-3 white-text">Оплатить</div>
+                                <div onClick={this.requestPayment} className="pay-btn grey darken-3 white-text">Оплатить</div>
                             </div>
                         </div>
                     </div>
@@ -36,4 +49,8 @@ class CoinsPayment extends Component{
     }
 }
 
-export default CoinsPayment;
+const mapStateToProps = state => ({
+    request: state.coins.request
+});
+
+export default connect(mapStateToProps)(CoinsPayment);

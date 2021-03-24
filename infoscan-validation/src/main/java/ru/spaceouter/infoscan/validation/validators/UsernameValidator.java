@@ -1,6 +1,5 @@
 package ru.spaceouter.infoscan.validation.validators;
 
-import ru.spaceouter.infoscan.validation.Email;
 import ru.spaceouter.infoscan.validation.Username;
 
 import javax.validation.ConstraintValidator;

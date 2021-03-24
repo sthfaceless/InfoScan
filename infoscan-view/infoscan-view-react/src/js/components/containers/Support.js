@@ -6,6 +6,21 @@ import Content from "js/components/simple/support/Content";
 import 'css/support/support.css';
 
 class Support extends Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            creating: false
+        }
+    }
+
+
+    createQuestion = () => {
+        if(this.state.creating)
+            return;
+        this.setState({creating: true});
+    };
+
     render() {
         return (
             <div className="support">
@@ -15,7 +30,7 @@ class Support extends Component{
                     </div>
                     <Content items={this.props.items}/>
                     <Answers items={this.props.items}/>
-                    <Feedback/>
+                    <Feedback feedback={this.createQuestion}/>
                 </div>
             </div>
         );

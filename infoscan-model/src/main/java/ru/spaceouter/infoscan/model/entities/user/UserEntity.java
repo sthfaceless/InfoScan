@@ -1,14 +1,11 @@
 package ru.spaceouter.infoscan.model.entities.user;
 
-import com.sun.naming.internal.FactoryEnumeration;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spaceouter.infoscan.model.entities.coins.CoinsEntity;
-import ru.spaceouter.infoscan.model.entities.coins.CoinsPaymentEntity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author danil
@@ -28,9 +25,6 @@ public class UserEntity {
     @Column(name = "username", unique = true, nullable = false, length = 64)
     private String username;
 
-    @Column(name = "email", unique = true, nullable = false, length = 64)
-    private String email;
-
     @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
 
@@ -40,12 +34,8 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.LAZY)
     private CoinsEntity coins;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<CoinsPaymentEntity> payments;
-
-    public UserEntity(String username, String email, Date registrationDate) {
+    public UserEntity(String username, Date registrationDate) {
         this.username = username;
-        this.email = email;
         this.registrationDate = registrationDate;
     }
 }

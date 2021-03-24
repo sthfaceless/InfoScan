@@ -1,7 +1,6 @@
 package ru.spaceouter.infoscan.services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.regex.Pattern;
 

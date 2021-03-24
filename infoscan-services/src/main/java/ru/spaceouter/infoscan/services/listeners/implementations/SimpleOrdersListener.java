@@ -1,7 +1,7 @@
 package ru.spaceouter.infoscan.services.listeners.implementations;
 
 import org.springframework.stereotype.Component;
-import ru.spaceouter.infoscan.dto.view.orders.OrderField;
+import ru.spaceouter.infoscan.dto.orders.OrderField;
 import ru.spaceouter.infoscan.services.listeners.OrdersListener;
 
 /**

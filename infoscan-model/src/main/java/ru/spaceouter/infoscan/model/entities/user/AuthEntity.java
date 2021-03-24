@@ -14,16 +14,7 @@ import java.util.Date;
 @Data
 @Table(name = "users_credentials")
 @NoArgsConstructor
-@NamedQueries({
-        @NamedQuery(name = "getAuthByEmail",
-                query = "select a.authId from AuthEntity a left join a.user u where u.email = :email"),
-        @NamedQuery(name = "getAuthByUserId",
-                query = "select authId from AuthEntity where user = :user")
-})
 public class AuthEntity {
-
-    public static final String GET_AUTH_BY_EMAIL = "getAuthByEmail";
-    public static final String GET_AUTH_BY_USER_ID = "getAuthByUserId";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +26,9 @@ public class AuthEntity {
 
     @Column(name = "password", nullable = false, length = 255)
     private String password;
+
+    @Column(name = "email", nullable = false, length = 64, unique = true)
+    private String email;
 
     @Column(name = "token", unique = true, nullable = false, length = 128)
     private String token;
@@ -55,10 +49,11 @@ public class AuthEntity {
     @OneToOne(optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
     private UserEntity user;
 
-    public AuthEntity(String username, String password, String token, Date expiredDate, boolean active, RoleEntity role) {
+    public AuthEntity(String username, String password, String email, String token, Date expiredDate, boolean active, RoleEntity role) {
         this.username = username;
         this.password = password;
         this.token = token;
+        this.email = email;
         this.expiredDate = expiredDate;
         this.active = active;
         this.role = role;

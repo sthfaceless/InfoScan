@@ -10,7 +10,6 @@ import ru.spaceouter.infoscan.dto.model.AuthModelDTO;
 import ru.spaceouter.infoscan.model.entities.user.AuthEntity;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
 
-
 import java.util.Date;
 
 /**
@@ -49,7 +48,8 @@ public interface AuthSpringDAO extends CrudRepository<AuthEntity, Long> {
     @Query("select password from AuthEntity  where user = :user")
     String getPasswordByUser(@Param("user") UserEntity user);
 
-    @Query("select new ru.spaceouter.infoscan.dto.auth.UserAuthDTO(u.userId, ae.username) " +
+    @Query("select new ru.spaceouter.infoscan.dto.auth.UserAuthDTO(u.userId, ae.username, ae.token) " +
             "from AuthEntity ae left join ae.user u where ae.token = :token")
     UserAuthDTO getAuthUserByToken(@Param("token") String token);
+
 }

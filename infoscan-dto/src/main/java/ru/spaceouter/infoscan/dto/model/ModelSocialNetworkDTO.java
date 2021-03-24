@@ -2,7 +2,7 @@ package ru.spaceouter.infoscan.dto.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.spaceouter.infoscan.dto.view.orders.SocialNetworkType;
+import ru.spaceouter.infoscan.dto.orders.SocialNetworkType;
 
 /**
  * @author danil

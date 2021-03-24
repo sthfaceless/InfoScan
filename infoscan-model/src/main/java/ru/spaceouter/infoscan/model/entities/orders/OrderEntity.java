@@ -2,7 +2,7 @@ package ru.spaceouter.infoscan.model.entities.orders;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.spaceouter.infoscan.dto.view.orders.OrderStatus;
+import ru.spaceouter.infoscan.dto.orders.OrderStatus;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
 
 import javax.persistence.*;
@@ -16,18 +16,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Table(name = "orders")
-@NamedQueries({
-        @NamedQuery(name = "getOrderInformationByOrderAndUser",
-        query = "select i.orderInformationId from OrderEntity o left join o.orderInformation i " +
-                "where o.orderId = :order and o.user = :user"),
-        @NamedQuery(name = "getOrderInformationByOrderId",
-        query = "select i.orderInformationId from OrderInformation i " +
-                " where i.order = :order")
-})
 public class OrderEntity {
-
-    public static final String GET_ORDER_INFORMATION_BY_ORDER_AND_USER = "getOrderInformationByOrderAndUser";
-    public static final String GET_ORDER_INFORMATION_BY_ORDER_ID = "getOrderInformationByOrderId";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

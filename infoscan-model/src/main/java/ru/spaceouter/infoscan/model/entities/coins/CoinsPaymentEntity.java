@@ -2,7 +2,8 @@ package ru.spaceouter.infoscan.model.entities.coins;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.spaceouter.infoscan.model.entities.user.UserEntity;
+import ru.spaceouter.infoscan.dto.coins.BillingMethod;
+import ru.spaceouter.infoscan.dto.coins.PaymentStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,15 +16,7 @@ import java.util.Date;
 @Data
 @Table(name = "coins_payment")
 @NoArgsConstructor
-@NamedQueries({
-        @NamedQuery(name = "getPaymentsByUser",
-        query = "select new ru.spaceouter.infoscan.dto.view.coins.PaymentDTO(" +
-                "coinsPaymentId, quantity, date, service" +
-                ") from CoinsPaymentEntity where user = :user")
-})
 public class CoinsPaymentEntity {
-
-    public static final String GET_PAYMENTS_BY_USER = "getPaymentsByUser";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,20 +29,26 @@ public class CoinsPaymentEntity {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "service", nullable = false)
-    private String service;
+    @Column(name = "method", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private BillingMethod method;
+
+    @Column(name = "payment_uuid", nullable = false, unique = true)
+    private String paymentUUID;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private PaymentStatus status;
 
     @JoinColumn(name = "coins_id", nullable = false, foreignKey = @ForeignKey(name = "coins_payments_fk"))
-    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CoinsEntity coins;
 
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "user_payments_fk"))
-    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private UserEntity user;
-
-    public CoinsPaymentEntity(long quantity, Date date, String service) {
+    public CoinsPaymentEntity(long quantity, Date date, BillingMethod method, String uuid, PaymentStatus status) {
         this.quantity = quantity;
         this.date = date;
-        this.service = service;
+        this.method = method;
+        this.paymentUUID = uuid;
+        this.status = status;
     }
 }

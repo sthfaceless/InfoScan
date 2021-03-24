@@ -1,4 +1,4 @@
-function setCookie(name, value, options) {
+export function setCookie(name, value, options) {
     options = options || {};
 
     let expires = options.expires;
@@ -26,7 +26,8 @@ function setCookie(name, value, options) {
 
     document.cookie = updatedCookie;
 }
-function getCookie(name) {
+
+export function getCookie(name) {
     const matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));

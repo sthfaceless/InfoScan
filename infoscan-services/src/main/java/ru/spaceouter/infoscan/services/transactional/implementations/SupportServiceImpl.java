@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.dto.view.support.CreateQuestionDTO;
+import ru.spaceouter.infoscan.dto.support.CreateQuestionDTO;
+import ru.spaceouter.infoscan.model.CommonDAO;
 import ru.spaceouter.infoscan.model.SupportSpringDAO;
 import ru.spaceouter.infoscan.model.entities.support.SupportQuestion;
-import ru.spaceouter.infoscan.model.ProxyDAO;
+import ru.spaceouter.infoscan.model.entities.user.UserEntity;
 import ru.spaceouter.infoscan.services.transactional.SupportService;
 
 /**
@@ -20,14 +21,14 @@ import ru.spaceouter.infoscan.services.transactional.SupportService;
 public class SupportServiceImpl implements SupportService {
 
     private final SupportSpringDAO supportSpringDAO;
-    private final ProxyDAO proxyDAO;
+    private final CommonDAO commonDAO;
 
     @Override
     public void createQuestion(long userId, CreateQuestionDTO createQuestionDTO) {
 
         SupportQuestion supportQuestion = new SupportQuestion(
                 createQuestionDTO.getQuestion());
-        supportQuestion.setUser(proxyDAO.getUserProxy(userId));
+        supportQuestion.setUser(commonDAO.getEntityProxy(UserEntity.class, userId));
 
         supportSpringDAO.save(supportQuestion);
     }

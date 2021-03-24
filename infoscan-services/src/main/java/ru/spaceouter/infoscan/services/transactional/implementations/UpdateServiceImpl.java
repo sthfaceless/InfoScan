@@ -5,10 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.model.ActivateCustomDAO;
+import ru.spaceouter.infoscan.model.ActivateSpringDAO;
 import ru.spaceouter.infoscan.model.AuthSpringDAO;
+import ru.spaceouter.infoscan.model.CommonDAO;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
-import ru.spaceouter.infoscan.model.ProxyDAO;
 import ru.spaceouter.infoscan.services.TokenService;
 import ru.spaceouter.infoscan.services.transactional.EmailService;
 import ru.spaceouter.infoscan.services.transactional.UpdateService;
@@ -22,9 +22,9 @@ import ru.spaceouter.infoscan.services.transactional.UpdateService;
 @AllArgsConstructor
 public class UpdateServiceImpl implements UpdateService {
 
-    private final ActivateCustomDAO activateCustomDAO;
+    private final ActivateSpringDAO activateSpringDAO;
     private final AuthSpringDAO authSpringDAO;
-    private final ProxyDAO proxyDAO;
+    private final CommonDAO commonDAO;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -35,26 +35,27 @@ public class UpdateServiceImpl implements UpdateService {
     public void updateEmail(long userId, String email) {
 
         String token = tokenService.nextToken();
-        activateCustomDAO.setConfirmEmailToken(userId, token, email);
+        activateSpringDAO.setConfirmEmailToken(commonDAO.getEntityProxy(UserEntity.class, userId), token, email);
 
         emailService.sendConfirmEmailMessage(email, token);
     }
 
     @Override
-    public boolean confirmEmailUpdating(String uuid) {
+    public void confirmEmailUpdating(String uuid) {
 
-       return activateCustomDAO.confirmEmail(uuid);
+        String email = activateSpringDAO.getTempEmail(uuid);
+        if(email != null)
+            activateSpringDAO.confirmEmail(uuid, email);
     }
 
     @Override
-    public boolean updatePassword(long userId, String pass, String newPass) {
+    public void updatePassword(long userId, String pass, String newPass) {
 
-        UserEntity user = proxyDAO.getUserProxy(userId);
+        UserEntity user = commonDAO.getEntityProxy(UserEntity.class, userId);
 
         if(!bCryptPasswordEncoder.matches(pass, authSpringDAO.getPasswordByUser(user)))
-            return false;
+            return;
 
         authSpringDAO.updatePassword(bCryptPasswordEncoder.encode(newPass), user);
-        return true;
     }
 }

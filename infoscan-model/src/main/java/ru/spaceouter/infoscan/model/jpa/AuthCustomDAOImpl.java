@@ -2,7 +2,6 @@ package ru.spaceouter.infoscan.model.jpa;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.model.AuthCustomDAO;
 
 /**
  * @author danil
@@ -10,6 +9,6 @@ import ru.spaceouter.infoscan.model.AuthCustomDAO;
  */
 @Repository
 @Transactional
-public class AuthCustomDAOImpl  implements AuthCustomDAO {
+public class AuthCustomDAOImpl {
 
 }

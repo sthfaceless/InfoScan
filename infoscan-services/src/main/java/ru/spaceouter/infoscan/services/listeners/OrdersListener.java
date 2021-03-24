@@ -1,6 +1,6 @@
 package ru.spaceouter.infoscan.services.listeners;
 
-import ru.spaceouter.infoscan.dto.view.orders.OrderField;
+import ru.spaceouter.infoscan.dto.orders.OrderField;
 
 /**
  * @author danil

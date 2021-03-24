@@ -9,7 +9,7 @@ class Feedback extends React.Component{
                 <div className="connect_suggestion grey-text text-darken-1">
                     Остались вопросы? Задайте вопрос и ответ придёт к вам на почту.
                 </div>
-                <div className="btn blue">Задать вопрос</div>
+                <div onClick={this.props.feedback} className="btn blue">Задать вопрос</div>
             </div>
         );
     }

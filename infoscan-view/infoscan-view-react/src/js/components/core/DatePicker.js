@@ -2,8 +2,20 @@ import React from 'react';
 import {Datepicker} from "materialize-css";
 
 class DatePicker extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            instance: undefined
+        }
+    }
+
+    onUpdate = () => {
+        this.props.onUpdate(this.state.instance.getDate());
+    };
+
     componentDidMount(){
-        Datepicker.init(document.getElementById(this.props.id),{
+        const elem = document.getElementById(this.props.id);
+        Datepicker.init(elem,{
             format: 'dd-mm-yyyy',
             i18n:{
                 cancel: 'Отмена',
@@ -17,10 +29,11 @@ class DatePicker extends React.Component{
             },
             showClearBtn: true
         });
+        this.setState({instance: M.Datepicker.getInstance(elem)});
     }
     render() {
         return (
-            <input className="content-field" id={this.props.id} placeholder={this.props.placeholder} type="text"/>
+            <input onChange={this.onUpdate} className="content-field" id={this.props.id} placeholder={this.props.placeholder} type="text"/>
         );
     }
 }

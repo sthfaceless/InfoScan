@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.dto.view.ConfirmDTO;
 import ru.spaceouter.infoscan.dto.view.EmailDTO;
-import ru.spaceouter.infoscan.dto.view.update.UpdatePasswordDTO;
+import ru.spaceouter.infoscan.dto.view.UpdatePasswordDTO;
 import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import ru.spaceouter.infoscan.dto.auth.AuthCredentialsDTO;
+import ru.spaceouter.infoscan.dto.auth.AuthTokenDTO;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.dto.model.AuthModelDTO;
-import ru.spaceouter.infoscan.dto.view.auth.AuthCredentialsDTO;
-import ru.spaceouter.infoscan.dto.view.auth.AuthTokenDTO;
 import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.model.AuthSpringDAO;
@@ -77,9 +77,9 @@ public class AuthServiceImpl implements AuthService<UserAuthDTO> {
         if(!bCryptPasswordEncoder.matches(authCredentialsDTO.getPassword(), authModelDTO.getPassword()))
             throw new InvalidAuthenticationException();
 
-        simpleAuth(authModelDTO.getAuthId(), response);
+        String generatedToken = simpleAuth(authModelDTO.getAuthId(), response);
 
-        return new UserAuthDTO(authModelDTO.getUserId(), authModelDTO.getUsername());
+        return new UserAuthDTO(authModelDTO.getUserId(), authModelDTO.getUsername(), generatedToken);
     }
 
     @Override
@@ -94,12 +94,12 @@ public class AuthServiceImpl implements AuthService<UserAuthDTO> {
         if(authModel == null)
             throw new InvalidAuthenticationException();
 
-        simpleAuth(authModel.getAuthId(), response);
+        String generatedToken = simpleAuth(authModel.getAuthId(), response);
 
-        return new UserAuthDTO(authModel.getUserId(), authModel.getUsername());
+        return new UserAuthDTO(authModel.getUserId(), authModel.getUsername(), generatedToken);
     }
 
-    private void simpleAuth(long authId, HttpServletResponse response){
+    private String simpleAuth(long authId, HttpServletResponse response){
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 30);
@@ -110,9 +110,11 @@ public class AuthServiceImpl implements AuthService<UserAuthDTO> {
 
         authListener.authSuccess(securedToken, expiredDate,response);
 
+        return securedToken;
     }
 
     @Override
+    @CacheEvict(cacheNames = "authentications", key = "#token")
     public void logout(String token,
                        HttpServletResponse response) throws UnauthorizedException {
 

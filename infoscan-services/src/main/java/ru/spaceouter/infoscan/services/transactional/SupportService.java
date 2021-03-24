@@ -1,6 +1,6 @@
 package ru.spaceouter.infoscan.services.transactional;
 
-import ru.spaceouter.infoscan.dto.view.support.CreateQuestionDTO;
+import ru.spaceouter.infoscan.dto.support.CreateQuestionDTO;
 
 /**
  * @author danil

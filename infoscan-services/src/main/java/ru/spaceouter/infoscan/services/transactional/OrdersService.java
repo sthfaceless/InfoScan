@@ -1,6 +1,6 @@
 package ru.spaceouter.infoscan.services.transactional;
 
-import ru.spaceouter.infoscan.dto.view.orders.*;
+import ru.spaceouter.infoscan.dto.orders.*;
 import ru.spaceouter.infoscan.exceptions.NotExistException;
 import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;
 
@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface OrdersService {
 
-    List<ViewOrderDTO> getOrders(long userId, String start) throws WrongArgumentsException;
+    List<ViewOrderDTO> getOrders(long userId, String query, String start, String order, String type) throws WrongArgumentsException;
 
     FullOrderDTO getOrder(String orderId, long userId) throws WrongArgumentsException;
 

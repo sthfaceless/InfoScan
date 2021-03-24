@@ -1,6 +1,5 @@
 package ru.spaceouter.infoscan.validation;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 import ru.spaceouter.infoscan.validation.validators.LinkValidator;
 
 import javax.validation.Constraint;

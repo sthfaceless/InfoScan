@@ -9,7 +9,6 @@ import ru.spaceouter.infoscan.exceptions.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
@@ -24,8 +23,6 @@ public class DefaultExceptionHandler extends AbstractRestController{
     @ExceptionHandler({UnexpectedServerException.class, MessagingException.class, HibernateException.class})
     public ResponseEntity<?> unexpectedServerException(Exception exception){
 
-        //TODO stack trace for debug
-        exception.printStackTrace();
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

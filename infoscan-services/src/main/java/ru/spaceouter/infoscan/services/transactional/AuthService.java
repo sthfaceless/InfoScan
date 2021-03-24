@@ -1,8 +1,8 @@
 package ru.spaceouter.infoscan.services.transactional;
 
+import ru.spaceouter.infoscan.dto.auth.AuthCredentialsDTO;
+import ru.spaceouter.infoscan.dto.auth.AuthTokenDTO;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.view.auth.AuthCredentialsDTO;
-import ru.spaceouter.infoscan.dto.view.auth.AuthTokenDTO;
 import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 

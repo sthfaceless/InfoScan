@@ -5,16 +5,18 @@ import Footer from './components/layout/Footer';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from "./store/store";
+import Modal from "./components/containers/Modal";
 
 class Infoscan extends Component {
     render() {
         return (
             <Provider store={store}>
                 <BrowserRouter>
-                    <HeaderContainer/>
-                    <Body/>
+                    <HeaderContainer/>                                                                                                                                                                          
+                    <Body/>                                                                                                                                                                                                                                                                                                                                                                                                     
                     <Footer/>
-                </BrowserRouter>
+                </BrowserRouter>                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                <Modal/>
             </Provider>
         );
     }

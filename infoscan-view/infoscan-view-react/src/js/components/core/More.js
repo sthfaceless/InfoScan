@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 import 'css/core/more.css';
 
-class More extends React.Component{
+class More extends Component{
+
+    constructor(props){
+        super(props);
+    }
+
     render() {
         return (
             <div className="more">
-                <div className="more-btn grey darken-3 white-text">Больше</div>
+                <div onClick={this.props.action} className="more-btn grey darken-3 white-text">Больше</div>
             </div>
         );
     }

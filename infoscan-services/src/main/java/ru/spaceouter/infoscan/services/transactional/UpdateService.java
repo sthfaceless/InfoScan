@@ -8,8 +8,8 @@ public interface UpdateService {
 
     void updateEmail(long userId, String email);
 
-    boolean confirmEmailUpdating(String uuid);
+    void confirmEmailUpdating(String uuid);
 
-    boolean updatePassword(long userId, String pass, String newPass);
+    void updatePassword(long userId, String pass, String newPass);
 
 }

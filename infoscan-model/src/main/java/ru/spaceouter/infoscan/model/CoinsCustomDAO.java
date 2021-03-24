@@ -1,6 +1,6 @@
 package ru.spaceouter.infoscan.model;
 
-import ru.spaceouter.infoscan.dto.view.coins.PaymentDTO;
+import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface CoinsCustomDAO {
 
-    List<PaymentDTO> getPayments(long userId);
+    List<PaymentDTO> getPayments(long userId, int start, int size, String order, String type);
 
 }

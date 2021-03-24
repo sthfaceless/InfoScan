@@ -9,7 +9,7 @@ class RadioGender extends React.Component{
                 <div className="right">
                     {this.props.items.map(item => (
                         <label key={item.value}>
-                            <input name={this.props.fieldName} value={item.value} type="radio" />
+                            <input onChange={(event) => this.props.onUpdate(event.target.value)} name={this.props.fieldName} value={item.value} type="radio" />
                             <span>{item.name}</span>
                         </label>
                     ))}
