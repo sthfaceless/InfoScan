@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.spaceouter</groupId>
-    <artifactId>infoscan</artifactId>
+    <groupId>ru.sthfaceless</groupId>
+    <artifactId>qscan</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.name}</name>
@@ -17,14 +17,14 @@
     </parent>
 
     <modules>
-        <module>infoscan-dto</module>
-        <module>infoscan-model</module>
-        <module>infoscan-logic</module>
-        <module>infoscan-services</module>
-        <module>infoscan-view</module>
-        <module>infoscan-master</module>
-        <module>infoscan-exceptions</module>
-        <module>infoscan-validation</module>
+        <module>qscan-dto</module>
+        <module>qscan-model</module>
+        <module>qscan-logic</module>
+        <module>qscan-services</module>
+        <module>qscan-view</module>
+        <module>qscan-master</module>
+        <module>qscan-exceptions</module>
+        <module>qscan-validation</module>
     </modules>
 
     <properties>

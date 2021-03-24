@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Infoscan from './js/Infoscan';
+import qScan from 'js/qScan';
 import './styles.css';
 
-ReactDOM.render(<Infoscan/> , document.getElementById('root'));
+ReactDOM.render(<qScan/> , document.getElementById('root'));

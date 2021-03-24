@@ -1,0 +1,20 @@
+package ru.sthfaceless.qscan.dto.coins;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class BillingInfo {
+
+    @NotNull
+    private String id;
+
+    @NotNull
+    private BillingMethod method;
+
+}
